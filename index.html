@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Search App</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body>
+
+<div id="app">
+
+    <section class="sectionTop">
+        <div class="text-center">
+            <h1 data-aos="fade-up"
+                data-aos-delay="0"
+                data-aos-duration="1000" >Music Search Application</h1>
+            <div class="clearfx"></div>
+            <p data-aos="fade-up"
+               data-aos-delay="150"
+               data-aos-duration="1000">Find your favorite music</p>
+            <form v-on:submit.prevent data-aos="fade-up"
+                  data-aos-delay="300"
+                  data-aos-duration="1000">
+                <label class="relative">
+                    <i class="fas fa-search" ref="icon"></i>
+                    <input type="text" id="search" ref="input"  @focus="changeStyle(true)" @blur="changeStyle(false)" placeholder="Search by genre, music band or artist">
+                    <span class="row justify-content-center">
+                        <input type="submit" v-on:click="search()" class="btn btn01 mt-3 " value="Search">
+                    </span>
+
+                </label>
+            </form>
+        </div>
+    </section>
+
+    <section class="sectionBottom text-center " v-bind:class="{flex : data.length === 0}">
+        <div ref="scroll"></div>
+        <div class="h-30"></div>
+        <div v-show="data.length === 0" class="empty">
+            <h1 data-aos="fade-up"
+                data-aos-delay="0"
+                data-aos-duration="1000">Empty...</h1>
+        </div>
+        <div class="row offset-md-2 offset-lg-0">
+            <div v-for="(item,index) in data" class="col-lg-4 col-md-5">
+                <h6 class="name">{{item.artistName}} - {{item.trackName}}</h6>
+                <img v-bind:src="item.artworkUrl100" alt="Image not found" class="image">
+                <div class="myAudio">
+                    <i class="fas fa-play" ref="playIcon" v-on:click="play(index)"></i>
+                    <input type="range" value="1" ref="range" @change="seek(index)" class="range" min="1" max="100"  step="1">
+                    <i class="fas fa-volume-up"  @mouseover="showVolume(index)" @mouseout="hideVolume(index)"></i>
+                    <input type="range" value="100" ref="volumeRange" @change="seekVolume(index)"  @mouseover="showVolume(index)" @mouseout="hideVolume(index)" class="volume" min="0" max="100"  step="1">
+                </div>
+                <audio class="audio" ref="track" @timeupdate="seekTimeUpdate(index)">
+                    <source  v-bind:src="item.previewUrl"  type="audio/mp4" />
+                    <p>Your browser does not support HTML5 audio.</p>
+                </audio>
+            </div>
+        </div>
+        <div class="h-30"></div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="sci">
+                        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
+                    <p class="cpryt">
+                        Copyright 2019 Nature | Nebojsha Mitikj
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+<script src="app.js"></script>
+<script src="https://kit.fontawesome.com/abc3023445.js"></script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+</body>
+</html>
